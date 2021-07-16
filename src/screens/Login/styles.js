@@ -81,6 +81,11 @@ const styles = StyleSheet.create({
   formLabel: {
     color: '#EEE',
   },
+  passwordViewIco: {
+    position: 'absolute',
+    right: 20,
+    top: 55,
+  },
 });
 
 export {styles};

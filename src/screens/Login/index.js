@@ -3,9 +3,12 @@ import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import {styles} from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useState} from 'react/cjs/react.development';
+import {useEffect} from 'react';
 
 export default function Login({navigation}) {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [passwordView, setPasswordView] = useState(false);
+  const [passwordIcon, setPasswordIcon] = useState('eye');
 
   const pressBtn = () => {
     Alert.alert('Button Pressed');
@@ -20,6 +23,16 @@ export default function Login({navigation}) {
       goToHome();
     }
   };
+  const togglePasswordView = () => {
+    setPasswordView(!passwordView);
+  };
+  useEffect(() => {
+    if (passwordView) {
+      setPasswordIcon('eye-slash');
+    } else {
+      setPasswordIcon('eye');
+    }
+  }, [passwordView]);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -64,7 +77,14 @@ export default function Login({navigation}) {
             style={styles.formControl}
             placeholderTextColor="#606060"
             placeholder="Pick a strong password"
-            secureTextEntry={true}></TextInput>
+            secureTextEntry={!passwordView}></TextInput>
+          <View style={styles.passwordViewIco}>
+            <TouchableOpacity
+              style={{padding: 5, borderRadius: 5}}
+              onPress={togglePasswordView}>
+              <Icon name={passwordIcon} size={20} color="#DDD" />
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.formSubmit}>
           <TouchableOpacity onPress={validatePhoneNumber}>
