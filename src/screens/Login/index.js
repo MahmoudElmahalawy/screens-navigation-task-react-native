@@ -2,13 +2,23 @@ import React from 'react';
 import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import {styles} from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {useState} from 'react/cjs/react.development';
 
 export default function Login({navigation}) {
+  const [phoneNumber, setPhoneNumber] = useState('');
+
   const pressBtn = () => {
     Alert.alert('Button Pressed');
   };
   const goToHome = () => {
     navigation.navigate('Home');
+  };
+  const validatePhoneNumber = () => {
+    if (!/^\d{11}$/.test(phoneNumber)) {
+      Alert.alert('Enter a valid phone number (11 digits)');
+    } else {
+      goToHome();
+    }
   };
   return (
     <View style={styles.container}>
@@ -40,12 +50,13 @@ export default function Login({navigation}) {
             placeholder="John Doe"></TextInput>
         </View>
         <View>
-          <Text style={styles.formControlTitle}>Email</Text>
+          <Text style={styles.formControlTitle}>Phone Number</Text>
           <TextInput
             style={styles.formControl}
-            keyboardType="email-address"
+            keyboardType="number-pad"
             placeholderTextColor="#606060"
-            placeholder="tim@apple.com"></TextInput>
+            placeholder="01234567890"
+            onChangeText={setPhoneNumber}></TextInput>
         </View>
         <View>
           <Text style={styles.formControlTitle}>Password</Text>
@@ -56,9 +67,12 @@ export default function Login({navigation}) {
             secureTextEntry={true}></TextInput>
         </View>
         <View style={styles.formSubmit}>
-          <TouchableOpacity onPress={goToHome}>
+          <TouchableOpacity onPress={validatePhoneNumber}>
             <Text style={{fontSize: 18, textAlign: 'center', color: '#EEE'}}>
               Create Account
+            </Text>
+            <Text style={{fontSize: 10, textAlign: 'center', color: '#EEE'}}>
+              and go to home screen
             </Text>
           </TouchableOpacity>
         </View>
